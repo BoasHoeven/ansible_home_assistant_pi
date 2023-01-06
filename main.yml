@@ -28,4 +28,3 @@
 
     - name: Set up Home-Assistant.
       ansible.builtin.import_tasks: tasks/home-assistant.yml
-      when: pihole_enable
