@@ -24,8 +24,11 @@ ansible-playbook main.yml
 ```
 
 ### Contains the following docker contains:
+
 Portainer default: disabled
+
 Pi-Hole default: disabled
+
 Home Assistant default: enabled
 
 To also create a Pi-Hole container in docker you can edit the config.yml file.
