@@ -11,6 +11,9 @@ services:
     volumes:
       - /home/pi/home-assistant/config:/config
       - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    environment:
+      - TZ=Europe/Amsterdam
     #devices:
     #  - /path/to/device:/path/to/device #optional
     # /dev/ttyUSB0:/dev/ttyUSB0
