@@ -1,3 +1,14 @@
 ---
 # Location where configuration files will be stored.
 config_dir: '~'
+
+# Domain names configuration (related services need to be enabled).
+domain_name_enable: false
+domain_name: 'home.local'
+domain_pihole: 'pihole' # to access pihole via: http://pihole.home.local
+
+# Pi-hole configuration.
+pihole_enable: false
+pihole_hostname: pihole
+pihole_timezone: Europe/Amsterdam
+pihole_password: "change-this-password"

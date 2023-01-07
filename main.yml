@@ -22,9 +22,17 @@
       when:
         - ansible_facts.os_family == "Archlinux"
 
+  handlers:
+    - name: Include handlers.
+      ansible.builtin.import_tasks: tasks/handlers.yml
+
   tasks:
     - name: Setup Docker.
       ansible.builtin.import_tasks: tasks/docker.yml
+
+    - name: Set up Pi-Hole.
+      ansible.builtin.import_tasks: tasks/pi-hole.yml
+      when: pihole_enable
 
     - name: Set up Home-Assistant.
       ansible.builtin.import_tasks: tasks/home-assistant.yml
