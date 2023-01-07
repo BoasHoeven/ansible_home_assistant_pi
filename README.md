@@ -23,4 +23,5 @@ ansible-playbook main.yml
 ```
 
 To also create a Pi-Hole container in docker you can edit the config.yml file.
+<br>
 You maybe have to run the ansible playbook twice because the first time the 'pi' user may not have been added yet.
