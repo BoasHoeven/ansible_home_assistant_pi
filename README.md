@@ -23,6 +23,11 @@ cd ansible_home_assistant_pi
 ansible-playbook main.yml
 ```
 
+### Contains the following docker contains:
+Portainer default: disabled
+Pi-Hole default: disabled
+Home Assistant default: enabled
+
 To also create a Pi-Hole container in docker you can edit the config.yml file.
 <br>
 > **If running locally on the Pi**: You may encounter an error like "Error while fetching server API version". If you do, please either reboot or log out and log back in, then run the playbook again.
