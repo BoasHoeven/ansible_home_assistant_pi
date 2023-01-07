@@ -13,7 +13,7 @@ services:
     environment:
       - TZ=Europe/Amsterdam
     devices:
-      -/dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/ttyUSB0:/dev/ttyUSB0
     restart: unless-stopped
     privileged: true
     network_mode: host
