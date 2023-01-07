@@ -34,5 +34,9 @@
       ansible.builtin.import_tasks: tasks/pi-hole.yml
       when: pihole_enable
 
+    - name: Set up Portainer.
+      ansible.builtin.import_tasks: tasks/portainer.yml
+      when: portainer_enable
+
     - name: Set up Home-Assistant.
       ansible.builtin.import_tasks: tasks/home-assistant.yml

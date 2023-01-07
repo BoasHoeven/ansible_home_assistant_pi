@@ -12,9 +12,8 @@ services:
       - /run/dbus:/run/dbus:ro
     environment:
       - TZ=Europe/Amsterdam
-    #devices:
-    #  - /path/to/device:/path/to/device #optional
-    # /dev/ttyUSB0:/dev/ttyUSB0
+    devices:
+      -/dev/ttyUSB0:/dev/ttyUSB0
     restart: unless-stopped
     privileged: true
     network_mode: host

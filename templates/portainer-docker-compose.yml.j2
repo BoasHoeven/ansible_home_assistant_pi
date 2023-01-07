@@ -3,20 +3,15 @@
 version: "3.5"
 
 services:
-  homeassistant:
-    image: ghcr.io/home-assistant/home-assistant:stable
-    container_name: homeassistant
-    ports:
-      - 8123:8123
-    volumes:
-      - /home/pi/home-assistant/config:/config
-      - /etc/localtime:/etc/localtime:ro
-      - /run/dbus:/run/dbus:ro
-    environment:
-      - TZ=Europe/Amsterdam
-    #devices:
-    #  - /path/to/device:/path/to/device #optional
-    # /dev/ttyUSB0:/dev/ttyUSB0
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
     restart: unless-stopped
-    privileged: true
-    network_mode: host
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /home/pi/portainer-data/config:/data
+    ports:
+      - 9000:9000

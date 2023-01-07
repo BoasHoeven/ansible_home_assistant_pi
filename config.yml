@@ -12,3 +12,6 @@ pihole_enable: false
 pihole_hostname: pihole
 pihole_timezone: Europe/Amsterdam
 pihole_password: "change-this-password"
+
+# Portainer configuration.
+portainer_enable: false
