@@ -23,7 +23,7 @@ cd ansible_home_assistant_pi
 ansible-playbook main.yml
 ```
 
-### Contains the following docker contains:
+### Contains the following docker containers:
 
 Portainer can be enabled via config option
 
