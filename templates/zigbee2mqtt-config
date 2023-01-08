@@ -9,10 +9,10 @@ mqtt:
   # MQTT base topic for zigbee2mqtt MQTT messages
   base_topic: zigbee2mqtt
   # MQTT server URL
-  server: 'mqtt://localhost'
+  server: 'mqtt://172.17.0.1'
   # MQTT server authentication, uncomment if required:
   user: pi
-  password: '{{ zigbee2mqtt_password }}'
+  password: '{{ mosquitto_password }}'
 
 # Serial settings
 serial:

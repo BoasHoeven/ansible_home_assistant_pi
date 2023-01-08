@@ -13,6 +13,13 @@
     mode: 0755
   become: false
 
+- name: Copy zigbee2mqtt config template to Pi.
+  ansible.builtin.template:
+    src: templates/zigbee2mqtt-config
+    dest: "/home/pi/zigbee2mqtt/data/configuration.yaml"
+    mode: 0640
+  become: true
+
 - name: Copy zigbee2mqtt docker-compose template to Pi.
   ansible.builtin.template:
     src: templates/zigbee2mqtt-docker-compose.yml.j2

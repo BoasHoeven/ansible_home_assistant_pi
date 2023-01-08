@@ -12,6 +12,7 @@ zigbee2mqtt_enable: true
 
 # Mosquitto configuration.
 mosquitto_enable: true
+mosquitto_password: "change-this-password"
 
 # Pi-hole configuration.
 pihole_enable: false
