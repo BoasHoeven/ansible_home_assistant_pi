@@ -27,6 +27,10 @@ ansible-playbook main.yml
 
 Home Assistant
 
+Mosquitto
+
+Zigbee2mqtt
+
 Portainer (Must enabled via config option)
 
 Pi-Hole (Must enabled via config option)
