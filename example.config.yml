@@ -1,14 +1,25 @@
 ---
 # Location where configuration files will be stored.
-config_dir: '~'
+config_dir: "~"
 
 # Domain names configuration (related services need to be enabled).
 domain_name_enable: false
-domain_name: 'home.local'
-domain_pihole: 'pihole' # to access pihole via: http://pihole.home.local
+domain_name: "home.local"
+domain_pihole: "pihole" # to access pihole via: http://pihole.home.local
+
+# Zigbee2mqtt configuration.
+zigbee2mqtt_enable: true
+
+# Mosquitto configuration.
+mosquitto_enable: true
 
 # Pi-hole configuration.
 pihole_enable: false
 pihole_hostname: pihole
-pihole_timezone: Europe/Amsterdam
 pihole_password: "change-this-password"
+
+# Portainer configuration.
+portainer_enable: false
+
+# Global config
+container_timezone: Europe/Amsterdam

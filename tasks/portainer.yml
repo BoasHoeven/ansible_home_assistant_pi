@@ -6,7 +6,7 @@
     mode: 0755
   become: false
 
-- name: Create data folder on Pi.
+- name: Create portainer/data folder on Pi.
   ansible.builtin.file:
     path: "{{ config_dir }}/portainer/data"
     state: directory

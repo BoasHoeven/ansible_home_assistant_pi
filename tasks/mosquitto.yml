@@ -6,21 +6,21 @@
     mode: 0755
   become: false
 
-- name: Create mosquitto data folder on Pi.
+- name: Create mosquitto/data folder on Pi.
   ansible.builtin.file:
     path: "{{ config_dir }}/mosquitto/data"
     state: directory
     mode: 0755
   become: false
 
-- name: Create mosquitto config folder on Pi.
+- name: Create mosquitto/config folder on Pi.
   ansible.builtin.file:
     path: "{{ config_dir }}/mosquitto/config"
     state: directory
     mode: 0755
   become: false
 
-- name: Create mosquitto log folder on Pi.
+- name: Create mosquitto/log folder on Pi.
   ansible.builtin.file:
     path: "{{ config_dir }}/mosquitto/log"
     state: directory

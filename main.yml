@@ -30,6 +30,10 @@
     - name: Setup Docker.
       ansible.builtin.import_tasks: tasks/docker.yml
 
+    - name: Set up Zigbee2mqtt.
+      ansible.builtin.import_tasks: tasks/zigbee2mqtt.yml
+      when: zigbee2mqtt_enable
+
     - name: Set up Mosquitto.
       ansible.builtin.import_tasks: tasks/mosquitto.yml
       when: mosquitto_enable
