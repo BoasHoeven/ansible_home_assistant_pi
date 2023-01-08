@@ -30,6 +30,10 @@
     - name: Setup Docker.
       ansible.builtin.import_tasks: tasks/docker.yml
 
+    - name: Set up Mosquitto.
+      ansible.builtin.import_tasks: tasks/mosquitto.yml
+      when: mosquitto_enable
+
     - name: Set up Pi-Hole.
       ansible.builtin.import_tasks: tasks/pi-hole.yml
       when: pihole_enable

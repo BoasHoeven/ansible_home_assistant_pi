@@ -1,0 +1,48 @@
+---
+- name: Create mosquitto folder on Pi.
+  ansible.builtin.file:
+    path: "{{ config_dir }}/mosquitto"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Create mosquitto data folder on Pi.
+  ansible.builtin.file:
+    path: "{{ config_dir }}/mosquitto/data"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Create mosquitto config folder on Pi.
+  ansible.builtin.file:
+    path: "{{ config_dir }}/mosquitto/config"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Create mosquitto log folder on Pi.
+  ansible.builtin.file:
+    path: "{{ config_dir }}/mosquitto/log"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Copy mosquitto docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/eclipse-mosquitto-docker-compose.yml.j2
+    dest: "{{ config_dir }}/mosquitto/docker-compose.yml"
+    mode: 0640
+  become: false
+
+- name: Copy mosquitto config template to Pi.
+  ansible.builtin.template:
+    src: templates/eclipse-mosquitto-config
+    dest: "{{ config_dir }}/mosquitto/config/mosquitto.conf"
+    mode: 0640
+  become: false
+
+- name: Ensure mosquitto is running.
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/mosquitto/"
+    build: false
+  become: false

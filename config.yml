@@ -1,11 +1,14 @@
 ---
 # Location where configuration files will be stored.
-config_dir: '~'
+config_dir: "~"
 
 # Domain names configuration (related services need to be enabled).
 domain_name_enable: false
-domain_name: 'home.local'
-domain_pihole: 'pihole' # to access pihole via: http://pihole.home.local
+domain_name: "home.local"
+domain_pihole: "pihole" # to access pihole via: http://pihole.home.local
+
+# Mosquitto configuration.
+mosquitto_enable: true
 
 # Pi-hole configuration.
 pihole_enable: false
