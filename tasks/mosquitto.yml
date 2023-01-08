@@ -30,19 +30,19 @@
 - name: Copy mosquitto docker-compose template to Pi.
   ansible.builtin.template:
     src: templates/eclipse-mosquitto-docker-compose.yml.j2
-    dest: "{{ config_dir }}/mosquitto/docker-compose.yml"
+    dest: "/home/pi/mosquitto/docker-compose.yml"
     mode: 0640
-  become: false
+  become: true
 
 - name: Copy mosquitto config template to Pi.
   ansible.builtin.template:
     src: templates/eclipse-mosquitto-config
-    dest: "{{ config_dir }}/mosquitto/config/mosquitto.conf"
+    dest: "/home/pi/mosquitto/config/mosquitto.conf"
     mode: 0640
-  become: false
+  become: true
 
 - name: Ensure mosquitto is running.
   community.docker.docker_compose:
-    project_src: "{{ config_dir }}/mosquitto/"
+    project_src: "/home/pi/mosquitto/"
     build: false
-  become: false
+  become: true
