@@ -8,11 +8,12 @@ domain_name: "home.local"
 domain_pihole: "pihole" # to access pihole via: http://pihole.home.local
 
 # Zigbee2mqtt configuration.
-zigbee2mqtt_enable: true
+zigbee2mqtt_enable: false
 zigbee2mqtt_password: "change-this-password"
 
 # Mosquitto configuration.
-mosquitto_enable: true
+mosquitto_enable: false
+mosquitto_password: "change-this-password"
 
 # Pi-hole configuration.
 pihole_enable: false

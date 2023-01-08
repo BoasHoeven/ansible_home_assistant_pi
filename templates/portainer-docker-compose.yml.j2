@@ -6,7 +6,6 @@ services:
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
-    restart: unless-stopped
     security_opt:
       - no-new-privileges:true
     volumes:
@@ -15,3 +14,4 @@ services:
       - /home/pi/portainer-data/config:/data
     ports:
       - 9000:9000
+    restart: unless-stopped
