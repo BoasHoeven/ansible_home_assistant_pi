@@ -34,6 +34,7 @@
       - python3-pip
       - git
       - rsync
+      - bluez
     state: present
   when: ansible_facts.os_family == "Debian"
 
