@@ -17,8 +17,8 @@ git clone https://github.com/BoasHoeven/ansible_home_assistant_pi.git
 
 ```
 cd ansible_home_assistant_pi
-
 ```
+
 ```
 ansible-galaxy collection install -r requirements.yml
 ```
