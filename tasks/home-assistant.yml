@@ -32,20 +32,19 @@
     dest: /tmp/file.tmp
     mode: 0644
 
-- name: Add lines to the temporary file
-  ansible.builtin.lineinfile:
+- name: Add zigbee2mqtt to sidebar
+  ansible.builtin.blockinfile:
     path: /tmp/file.tmp
-    line: "{{ item }}"
-    state: present
-    regexp: "^panel_iframe:$"
-    create: yes
-  with_items:
-    - "panel_iframe:"
-    - "  zigbee2mqtt:"
-    - "    title: \"zigbee2mqtt\""
-    - "    url: \"http://172.80.0.35:8080\""
-    - "    icon: mdi:zigbee"
-    - "    require_admin: true"
+    block: |
+      panel_iframe:
+        zigbee2mqtt:
+          title: "zigbee2mqtt"
+          url: "http://172.80.0.35:8080"
+          icon: mdi:zigbee
+          require_admin: true
+    backup: yes
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+  when: "'panel_iframe:' not in ansible.builtin.file.read('/{{ config_dir }}/home-assistant/config/configuration.yaml')"
 
 - name: Replace original file with modified file
-  ansible.builtin.shell: mv /tmp/file.tmp /{{ config_dir }}/home-assistant/config/configuration.yaml
+  ansible.builtin.shell: mv /tmp/file.tmp /{{ config_dir }}/home-assistant/config/configurationTEST.yaml
