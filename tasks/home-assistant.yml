@@ -63,3 +63,15 @@
     dest: "{{ config_dir }}/home-assistant/config/configuration.yaml"
     mode: 0644
   when: no_sidebar_present.changed
+
+- name: Stop home-assistant container.
+  community.docker.docker_container:
+    name: homeassistant
+    state: stopped
+  when: no_sidebar_present.changed
+
+- name: Start home-assistant container.
+  community.docker.docker_container:
+    name: homeassistant
+    state: started
+  when: no_sidebar_present.changed
