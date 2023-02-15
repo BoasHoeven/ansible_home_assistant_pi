@@ -24,4 +24,3 @@ portainer_enable: false
 
 # Global config
 container_timezone: Europe/Amsterdam
-device_ip: 172.80.0.35

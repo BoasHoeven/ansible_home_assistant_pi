@@ -8,10 +8,9 @@
       volumes:
         - /home/pi/zigbee2mqtt/data:/app/data
         - /run/dbus:/run/dbus:ro
-      ports:
-        - 8080:8080
       devices:
         - /dev/ttyUSB0:/dev/ttyACM0
       environment:
         - TZ='{{ container_timezone }}'
       restart: unless-stopped
+      network_mode: host
