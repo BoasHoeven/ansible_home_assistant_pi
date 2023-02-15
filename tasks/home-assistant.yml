@@ -25,3 +25,17 @@
     project_src: "{{ config_dir }}/home-assistant/"
     build: false
   become: false
+
+- name: Add zigbee2mqtt to home assisant sidebar
+  ansible.builtin.lineinfile:
+    path: "/{{ config_dir }}/home-assistant/config/configuration.yaml"
+    line: "{{ item }}"
+    state: present
+    create: yes
+  with_items:
+    - "panel_iframe:"
+    - "  zigbee2mqtt:"
+    - "    title: \"zigbee2mqtt\""
+    - "    url: \"http://172.80.0.35:8080\""
+    - "    icon: mdi:zigbee"
+    - "    require_admin: true"
