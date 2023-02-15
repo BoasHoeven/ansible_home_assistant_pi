@@ -31,7 +31,7 @@
     path: "{{ config_dir }}/home-assistant/config/configuration.yaml"
     line: "panel_iframe:"
     state: present
-  register: sidebar_found
+  register: no_sidebar_present
   check_mode: true
   
 - name: Create a backup of Home Assistant configuration
@@ -39,7 +39,7 @@
     src: "{{ config_dir }}/home-assistant/config/configuration.yaml"
     dest: /tmp/file.tmp
     mode: 0644
-  when: sidebar_found.changed == false
+  when: no_sidebar_present.changed
 
 - name: Add the sidebar items to Home Assistant configuration
   ansible.builtin.blockinfile:
@@ -52,11 +52,11 @@
           icon: mdi:zigbee
           require_admin: true
     backup: yes
-  when: sidebar_found.changed == false
+  when: no_sidebar_present.changed
 
 - name: Update Home Assistant configuration file with sidebar
   ansible.builtin.copy:
     src: /tmp/file.tmp
     dest: "{{ config_dir }}/home-assistant/config/configuration.yaml"
     mode: 0644
-  when: sidebar_found.changed == false
+  when: no_sidebar_present.changed
