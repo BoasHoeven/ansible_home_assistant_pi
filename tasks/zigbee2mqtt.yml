@@ -16,7 +16,7 @@
 - name: Copy zigbee2mqtt config template to Pi.
   ansible.builtin.template:
     src: templates/zigbee2mqtt-config
-    dest: "/home/pi/zigbee2mqtt/data/configuration.yaml"
+    dest: "{{ config_dir }}/zigbee2mqtt/data/configuration.yaml"
     mode: 0640
   become: true
 
