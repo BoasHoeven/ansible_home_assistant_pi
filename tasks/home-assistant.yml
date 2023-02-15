@@ -26,14 +26,19 @@
     build: false
   become: false
 
-- name: Add zigbee2mqtt to home assisant sidebar
+- name: Copy file to a temporary location
+  ansible.builtin.copy:
+    src: /{{ config_dir }}/home-assistant/config/configuration.yaml
+    dest: /tmp/file.tmp
+    mode: 0644
+
+- name: Add lines to the temporary file
   ansible.builtin.lineinfile:
-    path: "/{{ config_dir }}/home-assistant/config/configuration.yaml"
+    path: /tmp/file.tmp
     line: "{{ item }}"
     state: present
-    create: yes
     regexp: "^panel_iframe:$"
-    insertafter: EOF
+    create: yes
   with_items:
     - "panel_iframe:"
     - "  zigbee2mqtt:"
@@ -42,3 +47,5 @@
     - "    icon: mdi:zigbee"
     - "    require_admin: true"
 
+- name: Replace original file with modified file
+  ansible.builtin.shell: mv /tmp/file.tmp /{{ config_dir }}/home-assistant/config/configuration.yaml
