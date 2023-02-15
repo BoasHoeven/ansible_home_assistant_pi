@@ -41,7 +41,7 @@
     mode: 0644
   when: sidebar_found.changed == false
 
-- name: Add sidebar configuration to Home Assistant configuration
+- name: Add the sidebar items to Home Assistant configuration
   ansible.builtin.blockinfile:
     path: /tmp/file.tmp
     block: |
