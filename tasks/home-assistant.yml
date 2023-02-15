@@ -26,6 +26,9 @@
     build: false
   become: false
 
+- name: Wait for Home Assistant configuration file
+  wait_for: "{{ config_dir }}/home-assistant/config/configuration.yaml"
+
 - name: Check if sidebar is present in Home Assistant configuration
   ansible.builtin.lineinfile:
     path: "{{ config_dir }}/home-assistant/config/configuration.yaml"
