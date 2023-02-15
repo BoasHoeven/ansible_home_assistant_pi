@@ -4,14 +4,14 @@
   services:
     zigbee2mqtt:
       container_name: zigbee2mqtt
-      image: koenkk/zigbee2mqtt
+      image: koenkk/zigbee2mqtt:latest
       volumes:
         - /home/pi/zigbee2mqtt/data:/app/data
         - /run/dbus:/run/dbus:ro
       ports:
         - 8080:8080
       devices:
-        - /dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0:/dev/ttyACM0
+        - /dev/ttyUSB0:/dev/ttyACM0
       environment:
         - TZ='{{ container_timezone }}'
       restart: unless-stopped
