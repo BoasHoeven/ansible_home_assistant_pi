@@ -26,13 +26,21 @@
     build: false
   become: false
 
+- name: Check if sidebar needs to be added
+  ansible.builtin.lineinfile:
+    path: /{{ config_dir }}/home-assistant/config/configuration.yaml
+    regex: "panel_iframe:"
+    state: present
+    register: sidebar_found
+
 - name: Copy file to a temporary location
   ansible.builtin.copy:
     src: /{{ config_dir }}/home-assistant/config/configuration.yaml
     dest: /tmp/file.tmp
     mode: 0644
+  when: sidebar_found.changed == false
 
-- name: Add zigbee2mqtt to sidebar
+- name: Add sidebar to configuration
   ansible.builtin.blockinfile:
     path: /tmp/file.tmp
     block: |
@@ -44,7 +52,11 @@
           require_admin: true
     backup: yes
     marker: "# {mark} ANSIBLE MANAGED BLOCK"
-  when: "'panel_iframe:' not in ansible.builtin.file.read('/{{ config_dir }}/home-assistant/config/configuration.yaml')"
+  when: sidebar_found.changed == false
 
-- name: Replace original file with modified file
-  ansible.builtin.shell: mv /tmp/file.tmp /{{ config_dir }}/home-assistant/config/configurationTEST.yaml
+- name: Update home assisant configuration file with sidebar
+  ansible.builtin.copy:
+    src: /tmp/file.tmp
+    dest: /{{ config_dir }}/home-assistant/config/configuration.yaml
+    mode: 0644
+  when: sidebar_found.changed == false
