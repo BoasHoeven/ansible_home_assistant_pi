@@ -47,23 +47,23 @@
     build: false
   become: true
 
-# - name: Stop mosquitto container.
-#   community.docker.docker_container:
-#     name: mosquitto
-#     state: stopped
+- name: Stop mosquitto container.
+  community.docker.docker_container:
+    name: mosquitto
+    state: stopped
 
-# - name: Start mosquitto container.
-#   community.docker.docker_container:
-#     name: mosquitto
-#     state: started
+- name: Start mosquitto container.
+  community.docker.docker_container:
+    name: mosquitto
+    state: started
 
-# - name: Create mosquitto password file.
-#   community.docker.docker_container_exec:
-#     container: "mosquitto"
-#     command: |
-#       touch /mosquitto/config/password.txt
+- name: Create mosquitto password file.
+  community.docker.docker_container_exec:
+    container: "mosquitto"
+    command: |
+      touch /mosquitto/config/password.txt
 
-# - name: Create mosquitto password file.
+# - name: Set password to file.
 #   community.docker.docker_container_exec:
 #     container: "mosquitto"
 #     command: |
