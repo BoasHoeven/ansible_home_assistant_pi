@@ -57,17 +57,17 @@
 #     name: mosquitto
 #     state: started
 
-- name: Create mosquitto password file.
-  community.docker.docker_container_exec:
-    container: "mosquitto"
-    command: |
-      touch /mosquitto/config/password.txt
+# - name: Create mosquitto password file.
+#   community.docker.docker_container_exec:
+#     container: "mosquitto"
+#     command: |
+#       touch /mosquitto/config/password.txt
 
-- name: Create mosquitto password file.
-  community.docker.docker_container_exec:
-    container: "mosquitto"
-    command: |
-      mosquitto_passwd -b /mosquitto/config/password.txt pi {{ mosquitto_password }}
+# - name: Create mosquitto password file.
+#   community.docker.docker_container_exec:
+#     container: "mosquitto"
+#     command: |
+#       mosquitto_passwd -b /mosquitto/config/password.txt pi {{ mosquitto_password }}
 
 - name: Enable authenication in mosquitto config.
   replace:
