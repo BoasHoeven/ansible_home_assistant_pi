@@ -48,7 +48,7 @@
       panel_iframe:
         zigbee2mqtt:
           title: "zigbee2mqtt"
-          url: "{{ ansible_default_ipv4.address }}:8080"
+          url: "http://{{ ansible_default_ipv4.address }}:8080"
           icon: mdi:zigbee
           require_admin: true
     backup: yes
