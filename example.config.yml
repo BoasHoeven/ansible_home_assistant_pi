@@ -1,6 +1,7 @@
 ---
 # Location where configuration files will be stored.
-config_dir: "~"
+config_dir: "{{ '~' | expanduser }}"
+
 
 # Domain names configuration (related services need to be enabled).
 domain_name_enable: false
@@ -21,6 +22,9 @@ pihole_password: "change-this-password"
 
 # Portainer configuration.
 portainer_enable: false
+
+# Tesla custom integration configuration.
+tesla_enable: false
 
 # Global config
 container_timezone: Europe/Amsterdam
