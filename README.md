@@ -1,4 +1,4 @@
-# ansible_home_assistant_pi
+# Setup commands
 
 
 ### Run the following commands:
