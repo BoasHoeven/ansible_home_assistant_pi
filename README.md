@@ -39,4 +39,6 @@ Portainer (Disabled)
 
 Pi-Hole (Disabled)
 
+Tesla Custom Integration (Disabled)
+
 > **If running locally on the Pi**: You may encounter an error like "Error while fetching server API version". If you do, please either reboot or log out and log back in, then run the playbook again.

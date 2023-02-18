@@ -22,5 +22,8 @@ pihole_password: "change-this-password"
 # Portainer configuration.
 portainer_enable: false
 
+# Tesla custom integration configuration.
+tesla_enable: false
+
 # Global config
 container_timezone: Europe/Amsterdam
