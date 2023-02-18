@@ -78,8 +78,7 @@
           icon: mdi:zigbee
           require_admin: true
     marker: "# {mark} ANSIBLE MANAGED BLOCK zigbee2mqtt"
-  register: update_config
-  when: zigbee2mqtt_panel_present.changed and zigbee2mqtt_enable
+  when: zigbee2mqtt_enable and zigbee2mqtt_panel_present.changed 
   become: false
 
 - name: Check if portainer sidebar is present in Home Assistant configuration
@@ -103,7 +102,6 @@
           icon: mdi:docker
           require_admin: true
     marker: "# {mark} ANSIBLE MANAGED BLOCK portainer"
-  register: update_config
   when: portainer_panel_present.changed and portainer_enable
   become: false
 
@@ -112,7 +110,6 @@
     src: /tmp/file.tmp
     dest: "{{ config_dir }}/home-assistant/config/configuration.yaml"
     mode: 0755
-  when: update_config.changed
   become: false
 
 - name: Create a custom_components directory if it does not exist
@@ -144,7 +141,6 @@
     src: /tmp/tesla_custom_integration/custom_components/tesla_custom/
     dest: "{{ config_dir }}/home-assistant/config/custom_components/tesla_custom/"
     mode: 0755
-  register: update_config
   when: download_tesla.changed
   become: false
 
