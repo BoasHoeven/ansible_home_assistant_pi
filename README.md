@@ -1,7 +1,5 @@
-# ansible_home_assistant_pi
+# Setup commands
 
-
-### Run the following commands:
 
 ```
 sudo apt-get update && sudo apt-get upgrade -y && sudo apt install ansible git -y
