@@ -4,7 +4,7 @@
 ### Run the following commands:
 
 ```
-sudo apt-get update && sudo apt-get upgrade -y && sudo sudo apt install ansible git -y
+sudo apt-get update && sudo apt-get upgrade -y && sudo apt install ansible git -y
 ```
 
 ```
