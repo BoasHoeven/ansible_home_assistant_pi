@@ -155,19 +155,16 @@
   ansible.builtin.file:
     path: /tmp/file.tmp
     state: absent
-  when: update_config.changed == false
   become: false
 
 - name: Stop home-assistant container. (Reloading config)
   community.docker.docker_container:
     name: homeassistant
     state: stopped
-  when: update_config.changed
   become: false
 
 - name: Start home-assistant container. (Reloading config)
   community.docker.docker_container:
     name: homeassistant
     state: started
-  when: update_config.changed
   become: false
