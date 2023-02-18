@@ -11,7 +11,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus:ro
     environment:
-      - TZ=Europe/Amsterdam
+      - TZ='{{ container_timezone }}'
     #devices:
       #- /dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0:/dev/ttyUSB0
     privileged: true
