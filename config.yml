@@ -25,5 +25,8 @@ portainer_enable: false
 # Tesla custom integration configuration.
 tesla_enable: false
 
+# WebRTC custom integration configuration.
+webrtc_enable: false
+
 # Global config
 container_timezone: Europe/Amsterdam
