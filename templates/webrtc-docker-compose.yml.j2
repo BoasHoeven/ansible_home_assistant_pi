@@ -6,6 +6,6 @@ services:
     privileged: true         # only for FFmpeg hardware transcoding
     restart: unless-stopped  # autorestart on fail or config change from WebUI
     environment:
-      - TZ = '{{ container_timezone }}'  # timezone in logs
+      - TZ='{{ container_timezone }}'  # timezone in logs
     volumes:
       - "/home/pi/webrtc/config:/config"   # folder for go2rtc.yaml file (edit from WebUI)
