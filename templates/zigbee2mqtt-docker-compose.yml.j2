@@ -8,8 +8,8 @@
       volumes:
         - /home/pi/zigbee2mqtt/data:/app/data
         - /run/dbus:/run/dbus:ro
-      devices:
-        - /dev/ttyUSB0:/dev/ttyACM0
+      #devices:
+        #- /dev/ttyUSB0:/dev/ttyACM0
       environment:
         - TZ='{{ container_timezone }}'
       restart: unless-stopped
