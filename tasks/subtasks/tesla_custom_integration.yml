@@ -1,0 +1,32 @@
+- name: Create custom_components and tesla_custom directories if they do not exist
+  ansible.builtin.file:
+    path: "{{ config_dir }}/home-assistant/config/custom_components/{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+    - ''
+    - 'tesla_custom'
+  register: download_tesla
+  become: false
+
+- name: Download Tesla Custom Integration
+  ansible.builtin.git:
+    repo: https://github.com/alandtse/tesla.git
+    dest: /tmp/tesla_custom_integration
+  when: download_tesla.changed
+  become: false
+
+- name: Add Tesla Custom Integration to Home Assistant
+  ansible.builtin.copy:
+    src: /tmp/tesla_custom_integration/custom_components/tesla_custom/
+    dest: "{{ config_dir }}/home-assistant/config/custom_components/tesla_custom/"
+    mode: 0755
+  when: download_tesla.changed
+  become: false
+
+- name: Tesla Custom Integration cleanup
+  ansible.builtin.file:
+    path: /tmp/tesla_custom_integration
+    state: absent
+  when: download_tesla.changed
+  become: false

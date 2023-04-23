@@ -1,0 +1,19 @@
+---
+- name: Check if {{ sidebar.key }} is present in Home Assistant configuration
+  ansible.builtin.lineinfile:
+    path: "{{ config_dir }}/home-assistant/config/configuration.yaml"
+    line: "{{ sidebar.key }}:"
+    state: present
+  register: sidebar_present
+  check_mode: true
+  become: false
+  when: sidebar.enabled | default(true)
+
+- name: Add {{ sidebar.name }} to Home Assistant configuration
+  ansible.builtin.blockinfile:
+    path: /tmp/file.tmp
+    insertafter: "{{ sidebar.key }}:"
+    block: "{% if sidebar.key == 'panel_iframe' %}{{ sidebar.key }}:{% else %}  {{ sidebar.key }}:\n{% endif %}{% for key, value in sidebar.items() if key not in ['name', 'key', 'enabled'] %}{% if sidebar.key == 'panel_iframe' %}  {% else %}    {% endif %}{{ key }}: \"{{ value }}\"\n{% endfor %}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ sidebar.key }}"
+  when: sidebar_present.changed and sidebar.enabled | default(true)
+  become: false
