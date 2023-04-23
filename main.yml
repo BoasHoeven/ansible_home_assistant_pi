@@ -52,3 +52,6 @@
 
     - name: Set up Home-Assistant.
       ansible.builtin.import_tasks: tasks/home-assistant.yml
+
+    - name: Configure Home-Assistant.
+      ansible.builtin.import_tasks: tasks/home-assistant-config.yml

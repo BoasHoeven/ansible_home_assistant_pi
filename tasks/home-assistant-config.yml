@@ -1,0 +1,143 @@
+---
+- name: Wait for Home Assistant configuration file
+  ansible.builtin.wait_for:
+    path: "{{ config_dir }}/home-assistant/config/configuration.yaml"
+    state: present
+    timeout: 40
+    msg: Timeout to find file '{{ config_dir }}/home-assistant/config/configuration.yaml'
+
+- name: Check if sidebar is present in Home Assistant configuration
+  ansible.builtin.lineinfile:
+    path: "{{ config_dir }}/home-assistant/config/configuration.yaml"
+    line: "panel_iframe:"
+    state: present
+  register: no_sidebar_present
+  check_mode: true
+  become: false
+  
+- name: Create a backup of Home Assistant configuration
+  ansible.builtin.copy:
+    src: "{{ config_dir }}/home-assistant/config/configuration.yaml"
+    dest: /tmp/file.tmp
+    mode: 0755
+  become: false
+
+- name: Add panel to Home Assistant configuration
+  lineinfile:
+    path: /tmp/file.tmp
+    line: |
+      panel_iframe:
+  when: no_sidebar_present.changed
+  become: false
+
+- name: Check if zigbee2mqtt sidebar is present in Home Assistant configuration
+  ansible.builtin.lineinfile:
+    path: "{{ config_dir }}/home-assistant/config/configuration.yaml"
+    line: "zigbee2mqtt:"
+    state: present
+  register: zigbee2mqtt_panel_present
+  check_mode: true
+  when: zigbee2mqtt_enable
+  become: false
+
+- name: Add zigbee2mqtt sidebar to Home Assistant configuration
+  ansible.builtin.blockinfile:
+    path: /tmp/file.tmp
+    insertafter: 'panel_iframe:'
+    block: |2
+        zigbee2mqtt:
+          title: "zigbee2mqtt"
+          url: "http://{{ ansible_default_ipv4.address }}:8080"
+          icon: mdi:zigbee
+          require_admin: true
+    marker: "# {mark} ANSIBLE MANAGED BLOCK zigbee2mqtt"
+  when: zigbee2mqtt_enable and zigbee2mqtt_panel_present.changed 
+  become: false
+
+- name: Check if portainer sidebar is present in Home Assistant configuration
+  ansible.builtin.lineinfile:
+    path: "{{ config_dir }}/home-assistant/config/configuration.yaml"
+    line: "portainer:"
+    state: present
+  register: portainer_panel_present
+  check_mode: true
+  when: portainer_enable
+  become: false
+
+- name: Add portainer sidebar to Home Assistant configuration
+  ansible.builtin.blockinfile:
+    path: /tmp/file.tmp
+    insertafter: 'panel_iframe:'
+    block: |2
+        portainer:
+          title: "portainer"
+          url: "http://{{ ansible_default_ipv4.address }}:9000"
+          icon: mdi:docker
+          require_admin: true
+    marker: "# {mark} ANSIBLE MANAGED BLOCK portainer"
+  when: portainer_panel_present.changed and portainer_enable
+  become: false
+
+- name: Update Home Assistant configuration
+  ansible.builtin.copy:
+    src: /tmp/file.tmp
+    dest: "{{ config_dir }}/home-assistant/config/configuration.yaml"
+    mode: 0755
+  become: false
+
+- name: Create a custom_components directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ config_dir }}/home-assistant/config/custom_components"
+    state: directory
+    mode: 0755
+  when: tesla_enable
+  become: false
+
+- name: Create a tesla_custom directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ config_dir }}/home-assistant/config/custom_components/tesla_custom"
+    state: directory
+    mode: 0755
+  register: download_tesla
+  when: tesla_enable
+  become: false
+
+- name: Download Tesla Custom Integration
+  ansible.builtin.git:
+    repo: https://github.com/alandtse/tesla.git
+    dest: /tmp/tesla_custom_integration
+  when: download_tesla.changed
+  become: false
+
+- name: Add Tesla Custom Integration to Home Assistant
+  ansible.builtin.copy:
+    src: /tmp/tesla_custom_integration/custom_components/tesla_custom/
+    dest: "{{ config_dir }}/home-assistant/config/custom_components/tesla_custom/"
+    mode: 0755
+  when: download_tesla.changed
+  become: false
+
+- name: Tesla Custom Integration cleanup
+  ansible.builtin.file:
+    path: /tmp/tesla_custom_integration
+    state: absent
+  when: download_tesla.changed
+  become: false
+
+- name: Home Assistant configuration cleanup
+  ansible.builtin.file:
+    path: /tmp/file.tmp
+    state: absent
+  become: false
+
+- name: Stop home-assistant container. (Reloading config)
+  community.docker.docker_container:
+    name: homeassistant
+    state: stopped
+  become: false
+
+- name: Start home-assistant container. (Reloading config)
+  community.docker.docker_container:
+    name: homeassistant
+    state: started
+  become: false
