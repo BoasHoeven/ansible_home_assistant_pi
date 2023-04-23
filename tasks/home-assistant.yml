@@ -151,20 +151,6 @@
   when: download_tesla.changed
   become: false
 
-- name: Create www directory for Home Assistant
-  ansible.builtin.file:
-    path: "{{ config_dir }}/home-assistant/config/www"
-    state: directory
-    mode: 0755
-  become: false
-
-- name: Download mushroom.js from the URL
-  ansible.builtin.get_url:
-    url: "https://github.com/piitaya/lovelace-mushroom/releases/latest/download/mushroom.js"
-    dest: "{{ config_dir }}/home-assistant/config/www/mushroom.js"
-    mode: '0644'
-  become: true
-
 - name: Home Assistant configuration cleanup
   ansible.builtin.file:
     path: /tmp/file.tmp

@@ -1,33 +1,27 @@
 ---
-- name: Create zigbee2mqtt folder on Pi.
+- name: Create zigbee2mqtt folders on Pi
   ansible.builtin.file:
-    path: "{{ config_dir }}/zigbee2mqtt"
+    path: "{{ config_dir }}/zigbee2mqtt/{{ item }}"
     state: directory
     mode: 0755
+  loop:
+    - ''
+    - 'data'
   become: false
 
-- name: Create zigbee2mqtt data folder on Pi.
-  ansible.builtin.file:
-    path: "{{ config_dir }}/zigbee2mqtt/data"
-    state: directory
-    mode: 0755
-  become: false
-
-- name: Copy zigbee2mqtt config template to Pi.
+- name: Copy zigbee2mqtt templates to Pi
   ansible.builtin.template:
-    src: templates/zigbee2mqtt-config
-    dest: "{{ config_dir }}/zigbee2mqtt/data/configuration.yaml"
+    src: "templates/{{ item.src }}"
+    dest: "{{ config_dir }}/zigbee2mqtt/{{ item.dest }}"
     mode: 0640
+  loop:
+    - src: 'zigbee2mqtt-config'
+      dest: 'data/configuration.yaml'
+    - src: 'zigbee2mqtt-docker-compose.yml.j2'
+      dest: 'docker-compose.yml'
   become: false
 
-- name: Copy zigbee2mqtt docker-compose template to Pi.
-  ansible.builtin.template:
-    src: templates/zigbee2mqtt-docker-compose.yml.j2
-    dest: "{{ config_dir }}/zigbee2mqtt/docker-compose.yml"
-    mode: 0640
-  become: false
-
-- name: Ensure zigbee2mqtt is running.
+- name: Ensure zigbee2mqtt is running
   community.docker.docker_compose:
     project_src: "{{ config_dir }}/zigbee2mqtt/"
     build: false

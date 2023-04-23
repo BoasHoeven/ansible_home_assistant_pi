@@ -1,76 +1,51 @@
 ---
-- name: Create mosquitto folder on Pi.
+- name: Create mosquitto folders on Pi
   ansible.builtin.file:
-    path: "{{ config_dir }}/mosquitto"
+    path: "{{ config_dir }}/mosquitto/{{ item }}"
     state: directory
     mode: 0755
+  loop:
+    - ''
+    - 'data'
+    - 'config'
+    - 'log'
   become: false
 
-- name: Create mosquitto data folder on Pi.
-  ansible.builtin.file:
-    path: "{{ config_dir }}/mosquitto/data"
-    state: directory
-    mode: 0755
-  become: false
-
-- name: Create mosquitto config folder on Pi.
-  ansible.builtin.file:
-    path: "{{ config_dir }}/mosquitto/config"
-    state: directory
-    mode: 0755
-  become: false
-
-- name: Create mosquitto log folder on Pi.
-  ansible.builtin.file:
-    path: "{{ config_dir }}/mosquitto/log"
-    state: directory
-    mode: 0755
-  become: false
-
-- name: Copy mosquitto docker-compose template to Pi.
+- name: Copy mosquitto templates to Pi
   ansible.builtin.template:
-    src: templates/eclipse-mosquitto-docker-compose.yml.j2
-    dest: "/home/pi/mosquitto/docker-compose.yml"
+    src: "templates/{{ item.src }}"
+    dest: "/home/pi/mosquitto/{{ item.dest }}"
     mode: 0640
+  loop:
+    - src: 'eclipse-mosquitto-docker-compose.yml.j2'
+      dest: 'docker-compose.yml'
+    - src: 'eclipse-mosquitto-config'
+      dest: 'config/mosquitto.conf'
   become: true
 
-- name: Copy mosquitto config template to Pi.
-  ansible.builtin.template:
-    src: templates/eclipse-mosquitto-config
-    dest: "/home/pi/mosquitto/config/mosquitto.conf"
-    mode: 0640
-  become: true
-
-- name: Ensure mosquitto is running.
+- name: Ensure mosquitto is running
   community.docker.docker_compose:
     project_src: "/home/pi/mosquitto/"
     build: false
   become: true
 
-- name: Create mosquitto password file.
+- name: Create and set password in mosquitto password file
   community.docker.docker_container_exec:
     container: "mosquitto"
-    command: |
-      touch /mosquitto/config/password.txt
+    command: "{{ item }}"
+  loop:
+    - "touch /mosquitto/config/password.txt"
+    - "mosquitto_passwd -b /mosquitto/config/password.txt {{ mosquitto_user }} {{ mosquitto_password }}"
 
-- name: Set password to file.
-  community.docker.docker_container_exec:
-    container: "mosquitto"
-    command: |
-      mosquitto_passwd -b /mosquitto/config/password.txt pi {{ mosquitto_password }}
-
-- name: Enable authenication in mosquitto config.
+- name: Enable authentication in mosquitto config
   replace:
-    path: /home/pi/mosquitto/config/mosquitto.conf
+    path: "/home/pi/mosquitto/config/mosquitto.conf"
     regexp: '#password_file /mosquitto/config/password.txt'
     replace: 'password_file /mosquitto/config/password.txt'
 
-- name: Stop mosquitto container.
-  community.docker.docker_container:
-    name: mosquitto
-    state: stopped
-
-- name: Start mosquitto container.
-  community.docker.docker_container:
-    name: mosquitto
-    state: started
+- name: Reload mosquitto configuration
+  ansible.builtin.shell: kill -HUP $(pgrep -x mosquitto)
+  args:
+    warn: false
+  ignore_errors: true
+  become: true

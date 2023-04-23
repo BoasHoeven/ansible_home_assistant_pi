@@ -12,6 +12,7 @@ zigbee2mqtt_enable: true
 
 # Mosquitto configuration.
 mosquitto_enable: true
+mosquitto_user: "pi"
 mosquitto_password: "change-this-password"
 
 # Pi-hole configuration.
@@ -24,6 +25,9 @@ portainer_enable: false
 
 # Tesla custom integration configuration.
 tesla_enable: false
+
+# WebRTC custom integration configuration.
+webrtc_enable: false
 
 # Global config
 container_timezone: Europe/Amsterdam
