@@ -14,8 +14,7 @@
         dest: "{{ item }}"
         mode: 0755
       loop:
-        - /tmp/backup_configuration.yaml
-        - /tmp/file.tmp
+        - /tmp/configuration.tmp
       become: false
 
   become: false
@@ -26,14 +25,23 @@
       include_tasks: subtasks/sidebar_tasks.yml
       loop:
         - { name: "panel_iframe", key: "panel_iframe" }
-        - { name: "zigbee2mqtt", key: "zigbee2mqtt", enabled: "{{ zigbee2mqtt_enable }}", title: "zigbee2mqtt", url: "http://{{ ansible_default_ipv4.address }}:8080", icon: "mdi:zigbee", require_admin: true }
-        - { name: "portainer", key: "portainer", enabled: "{{ portainer_enable }}", title: "portainer", url: "http://{{ ansible_default_ipv4.address }}:9000", icon: "mdi:docker", require_admin: true }
+        - { name: "zigbee2mqtt", key: "zigbee2mqtt", enabled: "{{ sidebar_zigbee2mqtt }}", title: "zigbee2mqtt", url: "http://{{ ansible_default_ipv4.address }}:8080", icon: "mdi:zigbee", require_admin: true }
+        - { name: "portainer", key: "portainer", enabled: "{{ sidebar_portainer }}", title: "portainer", url: "http://{{ ansible_default_ipv4.address }}:9000", icon: "mdi:docker", require_admin: true }
+        - { name: "pihole", key: "pihole", enabled: "{{ sidebar_pihole }}", title: "pihole", url: "http://{{ ansible_default_ipv4.address }}/admin/login.php", icon: "mdi:pi-hole", require_admin: true }
       loop_control:
         loop_var: sidebar
 
+    - name: Manage custom sidebars in Home Assistant configuration
+      include_tasks: subtasks/custom_sidebar_tasks.yml
+      loop:
+        - { name: "panel_integrations", enabled: "{{ sidebar_integrations }}", sidebar_title: "Integrations", sidebar_icon: "mdi:audio-input-rca", url_path: "config/integrations", module_url: "/api/hassio/app/entrypoint.js", embed_iframe: true, require_admin: true }
+        - { name: "panel_automations", enabled: "{{ sidebar_automations }}", sidebar_title: "Automations", sidebar_icon: "mdi:cogs", url_path: "config/automation", module_url: "/api/hassio/app/entrypoint.js", embed_iframe: true, require_admin: true }
+      loop_control:
+        loop_var: custom_sidebar
+
     - name: Update Home Assistant configuration
       ansible.builtin.copy:
-        src: /tmp/file.tmp
+        src: /tmp/configuration.tmp
         dest: "{{ config_dir }}/home-assistant/config/configuration.yaml"
         mode: 0755
       become: false
@@ -65,6 +73,5 @@
     path: "{{ item }}"
     state: absent
   loop:
-    - /tmp/file.tmp
-    - /tmp/backup_configuration.yaml
+    - /tmp/configuration.tmp
   become: false

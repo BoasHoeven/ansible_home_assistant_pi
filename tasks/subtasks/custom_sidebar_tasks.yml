@@ -1,0 +1,22 @@
+---
+- name: Ensure panel_custom is present in Home Assistant configuration
+  ansible.builtin.lineinfile:
+    path: /tmp/configuration.tmp
+    line: "panel_custom:"
+    state: present
+  become: false
+
+- name: Add {{ custom_sidebar.name }} to Home Assistant configuration
+  ansible.builtin.blockinfile:
+    path: /tmp/configuration.tmp
+    insertafter: "panel_custom:"
+    block: |2
+        - name: {{ custom_sidebar.name }}
+      {% for key, value in custom_sidebar.items() if key not in ['name', 'enabled'] %}
+          {{ key }}: {{ value }}
+      {% endfor %}
+    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ custom_sidebar.name }}"
+    create: yes
+  when: custom_sidebar.enabled | default(true)
+  become: false
+
