@@ -13,7 +13,15 @@
   ansible.builtin.blockinfile:
     path: /tmp/configuration.tmp
     insertafter: "{{ sidebar.key }}:"
-    block: "{% if sidebar.key == 'panel_iframe' %}{{ sidebar.key }}:{% else %}  {{ sidebar.key }}:\n{% endif %}{% for key, value in sidebar.items() if key not in ['name', 'key', 'enabled'] %}{% if sidebar.key == 'panel_iframe' %}  {% else %}    {% endif %}{{ key }}: \"{{ value }}\"\n{% endfor %}"
+    block: |2
+      {% if sidebar.key == 'panel_iframe' %}
+      {{ sidebar.key }}:
+      {% else %}
+        {{ sidebar.key }}:
+      {% endif %}
+      {% for key, value in sidebar.items() if key not in ['name', 'key', 'enabled'] %}
+          {{ key }}: {{ value }}
+      {% endfor %}
     marker: "# {mark} ANSIBLE MANAGED BLOCK {{ sidebar.key }}"
   when: sidebar_present.changed and sidebar.enabled | default(true)
   become: false
