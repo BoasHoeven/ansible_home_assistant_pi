@@ -3,17 +3,23 @@
 version: "3.5"
 
 services:
-  homeassistant:
+  hass:
     image: homeassistant/home-assistant:latest
-    container_name: homeassistant
+    container_name: hass
     volumes:
       - /home/pi/home-assistant/config:/config
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus:ro
     environment:
       - TZ='{{ container_timezone }}'
-    #devices:
-      #- /dev/serial/by-id/usb-Silicon_Labs_Sonoff_Zigbee_3.0_USB_Dongle_Plus_0001-if00-port0:/dev/ttyUSB0
     privileged: true
     network_mode: host
+    cap_add:
+      - NET_ADMIN  # Required for adding new routes
     restart: unless-stopped
+    healthcheck:
+      test: "curl -Lf http://localhost:8123"
+      start_period: 6m
+      timeout: 15s
+      interval: 30s
+      retries: 3

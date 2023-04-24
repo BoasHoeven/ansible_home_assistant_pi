@@ -56,13 +56,13 @@
   block:
     - name: Stop home-assistant container (Reloading config)
       community.docker.docker_container:
-        name: homeassistant
+        name: hass
         state: stopped
       become: false
 
     - name: Start home-assistant container (Reloading config)
       community.docker.docker_container:
-        name: homeassistant
+        name: hass
         state: started
       become: false
 
