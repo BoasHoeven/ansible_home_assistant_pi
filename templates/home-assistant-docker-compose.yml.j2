@@ -13,8 +13,6 @@ services:
     environment:
       - TZ='{{ container_timezone }}'
     network_mode: host
-    cap_add:
-      - NET_ADMIN  # Required for adding new routes
     restart: unless-stopped
     healthcheck:
       test: "curl -Lf http://localhost:8123"
