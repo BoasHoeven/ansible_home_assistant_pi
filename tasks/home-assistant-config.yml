@@ -46,6 +46,15 @@
         mode: 0755
       become: false
 
+    - name: Clone or update Home Assistant Blueprints repository
+      git:
+        repo: 'https://github.com/BoasHoeven/home_assistant_blueprints.git'
+        dest: "{{ config_dir }}/home-assistant/config/blueprints/automation/boas"
+        version: 'main'
+        update: yes
+      when: install_blueprints
+      become: true
+
     - name: Manage Tesla Custom Integration
       include_tasks: subtasks/tesla_custom_integration.yml
       when: tesla_enable

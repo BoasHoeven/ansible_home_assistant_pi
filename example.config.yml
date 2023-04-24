@@ -29,5 +29,14 @@ tesla_enable: false
 # WebRTC custom integration configuration.
 webrtc_enable: false
 
+# Home Assistant
+sidebar_zigbee2mqtt: true
+sidebar_portainer: false
+sidebar_pihole: false
+sidebar_automations: true
+sidebar_integrations: true
+
+install_blueprints: false
+
 # Global config
 container_timezone: Europe/Amsterdam

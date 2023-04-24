@@ -12,7 +12,6 @@ services:
       - /run/dbus:/run/dbus:ro
     environment:
       - TZ='{{ container_timezone }}'
-    privileged: true
     network_mode: host
     cap_add:
       - NET_ADMIN  # Required for adding new routes
