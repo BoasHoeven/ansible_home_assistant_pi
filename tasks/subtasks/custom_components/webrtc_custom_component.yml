@@ -11,13 +11,19 @@
     version: master
     force: yes
 
+- name: Check for updates
+  command: git diff --quiet "{{ config_dir }}/home-assistant/config/custom_components/webrtc" /tmp/webrtc/custom_components/webrtc
+  register: diff_output
+  failed_when: diff_output.rc not in [0, 1]
+  changed_when: diff_output.rc == 1
+
 - name: Copy 'webrtc' folder to the desired location
   synchronize:
     src: /tmp/webrtc/custom_components/webrtc/
     dest: "{{ config_dir }}/home-assistant/config/custom_components/webrtc"
-  when: not folder_stat.stat.exists or folder_stat.stat.isdir
+  when: not folder_stat.stat.exists or diff_output.changed
 
 - name: Clean up temporary GitHub repository
   ansible.builtin.file:
-    path:  /tmp/webrtc
+    path: /tmp/webrtc
     state: absent
