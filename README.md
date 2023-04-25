@@ -1,5 +1,7 @@
-# Setup commands
+# Ansible Home Assistant Pi Setup
 
+
+## Prerequisites
 
 ```
 sudo apt-get update && sudo apt-get upgrade -y && sudo apt install ansible git -y
@@ -9,6 +11,8 @@ sudo apt-get update && sudo apt-get upgrade -y && sudo apt install ansible git -
 sudo reboot
 ```
 
+## Clone the Repository
+
 ```
 git clone https://github.com/BoasHoeven/ansible_home_assistant_pi.git
 ```
@@ -17,15 +21,44 @@ git clone https://github.com/BoasHoeven/ansible_home_assistant_pi.git
 cd ansible_home_assistant_pi
 ```
 
+## Configure Ansible Vault
+
+```
+touch vault.yml
+```
+
+
+```
+ansible-vault encrypt vault.yml
+```
+
+
+```
+ansible-vault edit vault.yml
+```
+
+Add the following content to the vault.yml file:
+
+```
+vault_mosquitto_password: "your-mosquitto-password"
+vault_pihole_password: "your-pihole-password"
+```
+
+## Install Required Collections
+
 ```
 ansible-galaxy collection install -r requirements.yml
 ```
 
+## Run the Ansible Playbook
+
 ```
-ansible-playbook main.yml
+ansible-playbook main.yml --ask-vault-pass
 ```
 
-### Contains the following docker containers:
+## Installed Docker Containers
+
+The playbook installs the following Docker containers:
 
 Home Assistant
 

@@ -2,6 +2,9 @@
 - hosts: automated_pi
   become: true
 
+  vars_files:
+    - vault.yml
+
   pre_tasks:
     - name: Load configuration (with defaults from example file).
       ansible.builtin.include_vars: "{{ item }}"

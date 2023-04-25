@@ -11,14 +11,15 @@ domain_pihole: "pihole" # to access pihole via: http://pihole.home.local
 zigbee2mqtt_enable: true
 
 # Mosquitto configuration.
-mosquitto_enable: true
-mosquitto_user: "pi"
-mosquitto_password: "change-this-password"
+mosquitto:
+  enable: true
+  user: "pi"
+  password: "{{ vault_mosquitto_password }}"
 
 # Pi-hole configuration.
 pihole_enable: false
 pihole_hostname: pihole
-pihole_password: "change-this-password"
+pihole_password: "{{ vault_pihole_password }}"
 
 # Portainer configuration.
 portainer_enable: false
@@ -30,11 +31,12 @@ tesla_enable: false
 webrtc_enable: false
 
 # Home Assistant
-sidebar_zigbee2mqtt: true
-sidebar_portainer: false
-sidebar_pihole: false
-sidebar_automations: true
-sidebar_integrations: true
+sidebar:
+  zigbee2mqtt: true
+  portainer: false
+  pihole: false
+  automations: true
+  integrations: true
 
 install_blueprints: false
 

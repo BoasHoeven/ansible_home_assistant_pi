@@ -14,8 +14,8 @@ mqtt:
   # MQTT server URL
   server: 'mqtt://localhost:1883'
   # MQTT server authentication, uncomment if required:
-  user: '{{ mosquitto_user }}'
-  password: '{{ mosquitto_password }}'
+  user: '{{ mosquitto.user }}'
+  password: '{{ mosquitto.password }}'
 
 # Serial settings
 serial:

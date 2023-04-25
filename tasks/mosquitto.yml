@@ -35,13 +35,15 @@
     command: "{{ item }}"
   loop:
     - "touch /mosquitto/config/password.txt"
-    - "mosquitto_passwd -b /mosquitto/config/password.txt {{ mosquitto_user }} {{ mosquitto_password }}"
+    - "mosquitto_passwd -b /mosquitto/config/password.txt {{ mosquitto.user }} {{ mosquitto.password }}"
+  no_log: true
 
 - name: Enable authentication in mosquitto config
   replace:
     path: "/home/pi/mosquitto/config/mosquitto.conf"
     regexp: '#password_file /mosquitto/config/password.txt'
     replace: 'password_file /mosquitto/config/password.txt'
+  become: true
 
 - name: Reload mosquitto configuration
   ansible.builtin.shell: kill -HUP $(pgrep -x mosquitto)
