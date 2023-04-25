@@ -3,9 +3,9 @@
 version: "3.5"
 
 services:
-  hass:
-    image: homeassistant/home-assistant:latest
+  home-assistant:
     container_name: home-assistant
+    image: homeassistant/home-assistant:latest
     volumes:
       - /home/pi/home-assistant/config:/config
       - /etc/localtime:/etc/localtime:ro
