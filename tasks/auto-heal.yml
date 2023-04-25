@@ -1,0 +1,23 @@
+---
+- name: Create auto heal folders on Pi.
+  ansible.builtin.file:
+    path: "{{ config_dir }}/autoheal{{ item }}"
+    state: directory
+    mode: 0755
+  become: false
+  loop:
+    - ""
+    - "/data"
+
+- name: Copy auto heal docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/auto-heal-docker-compose.yml.j2
+    dest: "{{ config_dir }}/autoheal/docker-compose.yml"
+    mode: 0640
+  become: false
+
+- name: Ensure auto heal is running.
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/autoheal/"
+    build: false
+  become: false

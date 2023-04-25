@@ -41,6 +41,10 @@
       ansible.builtin.import_tasks: tasks/mosquitto.yml
       when: mosquitto.enable
 
+    - name: Set up Auto-Heal.
+      ansible.builtin.import_tasks: tasks/auto-heal.yml
+      when: autoheal.enable
+
     - name: Set up Pi-Hole.
       ansible.builtin.import_tasks: tasks/pi-hole.yml
       when: pihole.enable

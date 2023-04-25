@@ -21,8 +21,11 @@ mosquitto:
 pihole:
   enable: false
   hostname: pihole
-  password: "{{ vault_pihole_password }}" # Use Ansible Vault to securely store the password
+  password: "{{ vault_pihole_password }}"
 
+# Auto Heal configuration.
+autoheal:
+  enable: true
 
 # Portainer configuration.
 portainer_enable: false
