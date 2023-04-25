@@ -4,8 +4,8 @@ version: "3.5"
 
 services:
   mosquitto:
-    image: eclipse-mosquitto:latest
     container_name: mosquitto
+    image: eclipse-mosquitto:latest
     volumes:
       - /home/pi/mosquitto:/mosquitto
       - /home/pi/mosquitto/data:/mosquitto/data

@@ -1,16 +1,17 @@
 # {{ ansible_managed }}
 ---
-  version: '3'
-  services:
-    zigbee2mqtt:
-      container_name: zigbee2mqtt
-      image: koenkk/zigbee2mqtt:latest
-      volumes:
-        - /home/pi/zigbee2mqtt/data:/app/data
-        - /run/dbus:/run/dbus:ro
-      devices:
-        - /dev/ttyUSB0:/dev/ttyACM0
-      environment:
-        - TZ='{{ container_timezone }}'
-      restart: unless-stopped
-      network_mode: host
+version: "3"
+
+services:
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt:latest
+    volumes:
+      - /home/pi/zigbee2mqtt/data:/app/data
+      - /run/dbus:/run/dbus:ro
+    #devices:
+      #- /dev/ttyUSB0:/dev/ttyACM0 # do NOT PUSH THIS CODE
+    environment:
+      - TZ='{{ container_timezone }}'
+    restart: unless-stopped
+    network_mode: host
