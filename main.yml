@@ -39,11 +39,11 @@
 
     - name: Set up Mosquitto.
       ansible.builtin.import_tasks: tasks/mosquitto.yml
-      when: mosquitto_enable
+      when: mosquitto.enable
 
     - name: Set up Pi-Hole.
       ansible.builtin.import_tasks: tasks/pi-hole.yml
-      when: pihole_enable
+      when: pihole.enable
 
     - name: Set up Portainer.
       ansible.builtin.import_tasks: tasks/portainer.yml

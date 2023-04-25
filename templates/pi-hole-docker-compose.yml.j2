@@ -2,7 +2,7 @@
 ---
 version: "3.5"
 
-{% if domain_name_enable and domain_name and domain_pihole %}
+{% if domain.enable and domain.name and domain.pihole %}
 {# Make sure pihole and nginx-proxy are in the same network #}
 networks:
   front-tier:
@@ -14,12 +14,12 @@ services:
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
-    hostname: '{{ pihole_hostname }}'
+    hostname: '{{ pihole.hostname }}'
     ports:
       - "53:53/tcp"
       - "53:53/udp"
       - "67:67/udp"
-{% if domain_name_enable and domain_name and domain_pihole %}
+{% if domain.enable and domain.name and domain.pihole %}
       - "38080:80/tcp"
 {% else %}
       - "80:80/tcp"
@@ -27,12 +27,12 @@ services:
       - "443:443/tcp"
     environment:
       TZ: '{{ container_timezone }}'
-      WEBPASSWORD: '{{ pihole_password }}'
+      WEBPASSWORD: '{{ pihole.password }}'
       ServerIP: '{{ ansible_facts['default_ipv4']['address'] }}'
-{% if domain_name_enable and domain_name and domain_pihole %}
-      VIRTUAL_HOST: {{ domain_pihole }}.{{ domain_name }}
+{% if domain.enable and domain.name and domain.pihole %}
+      VIRTUAL_HOST: {{ domain.pihole }}.{{ domain.name }}
       VIRTUAL_PORT: 80
-      PROXY_LOCATION: {{ domain_pihole }}
+      PROXY_LOCATION: {{ domain.pihole }}
     networks:
       - front-tier
 {% endif %}
@@ -44,13 +44,13 @@ services:
       - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
     cap_add:
       - NET_ADMIN
-{% if domain_name_enable and domain_name %}
+{% if domain.enable and domain.name %}
     # adds hostname mappings to pihole /etc/hosts file
     extra_hosts:
       # # LAN hostnames for other docker containers using nginx-proxy
-      - "{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
-{% if domain_name_enable and domain_name and domain_pihole %}
-      - "{{ domain_pihole }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
+      - "{{ domain.name }}:{{ ansible_facts['default_ipv4']['address'] }}"
+{% if domain.enable and domain.name and domain.pihole %}
+      - "{{ domain.pihole }}.{{ domain.name }}:{{ ansible_facts['default_ipv4']['address'] }}"
 {% endif %}
 {% endif %}
     restart: unless-stopped

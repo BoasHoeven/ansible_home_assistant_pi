@@ -3,9 +3,10 @@
 config_dir: "{{ '~' | expanduser }}"
 
 # Domain names configuration (related services need to be enabled).
-domain_name_enable: false
-domain_name: "home.local"
-domain_pihole: "pihole" # to access pihole via: http://pihole.home.local
+domain:
+  enable: false
+  name: "home.local"
+  pihole: "pihole" # to access pihole via: http://pihole.home.local
 
 # Zigbee2mqtt configuration.
 zigbee2mqtt_enable: true
@@ -17,9 +18,11 @@ mosquitto:
   password: "{{ vault_mosquitto_password }}"
 
 # Pi-hole configuration.
-pihole_enable: false
-pihole_hostname: pihole
-pihole_password: "{{ vault_pihole_password }}"
+pihole:
+  enable: false
+  hostname: pihole
+  password: "{{ vault_pihole_password }}" # Use Ansible Vault to securely store the password
+
 
 # Portainer configuration.
 portainer_enable: false
