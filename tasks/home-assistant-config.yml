@@ -57,11 +57,18 @@
       become: true
 
     - name: Manage Tesla Custom Component
-      include_tasks: subtasks/tesla_custom_integration.yml
+      include_tasks: subtasks/custom_component_manager.yml
+      vars:
+        custom_component_name: tesla_custom
+        custom_component_repo: https://github.com/alandtse/tesla.git
+        custom_component_version: main 
       when: custom_components.tesla
 
     - name: Manage WebRTC Custom Component
-      include_tasks: subtasks/custom_components/webrtc_custom_component.yml
+      include_tasks: subtasks/custom_component_manager.yml
+      vars:
+        custom_component_name: webrtc
+        custom_component_repo: https://github.com/AlexxIT/WebRTC.git
       when: custom_components.webrtc
   
   become: false

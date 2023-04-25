@@ -43,7 +43,7 @@ sidebar:
   integrations: true
 
 custom_components:
-  tesla: false
+  tesla: true
   webrtc: true
 
 install_blueprints: true

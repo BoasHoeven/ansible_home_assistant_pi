@@ -1,0 +1,29 @@
+---
+- name: Check if custom component has already been downloaded
+  stat:
+    path: "{{ config_dir }}/home-assistant/config/custom_components/{{ custom_component_name }}"
+  register: folder_stat
+
+- name: Download temporary GitHub repository
+  git:
+    repo: "{{ custom_component_repo }}"
+    dest: "/tmp/{{ custom_component_name }}"
+    version: "{{ custom_component_version | default('master') }}" 
+    force: yes
+
+- name: Check for updates
+  command: git diff --quiet "{{ config_dir }}/home-assistant/config/custom_components/{{ custom_component_name }}" "/tmp/{{ custom_component_name }}/custom_components/{{ custom_component_name }}"
+  register: diff_output
+  failed_when: diff_output.rc not in [0, 1]
+  changed_when: diff_output.rc == 1
+
+- name: Copy custom component folder to the desired location
+  synchronize:
+    src: "/tmp/{{ custom_component_name }}/custom_components/{{ custom_component_name }}/"
+    dest: "{{ config_dir }}/home-assistant/config/custom_components/{{ custom_component_name }}"
+  when: not folder_stat.stat.exists or diff_output.changed
+
+- name: Clean up temporary GitHub repository
+  ansible.builtin.file:
+    path: "/tmp/{{ custom_component_name }}"
+    state: absent
