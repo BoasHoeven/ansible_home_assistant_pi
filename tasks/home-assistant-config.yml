@@ -25,17 +25,17 @@
       include_tasks: subtasks/sidebar_tasks.yml
       loop:
         - { name: "panel_iframe", key: "panel_iframe" }
-        - { name: "zigbee2mqtt", key: "zigbee2mqtt", enabled: "{{ sidebar_zigbee2mqtt }}", title: "zigbee2mqtt", url: "http://{{ ansible_default_ipv4.address }}:8080", icon: "mdi:zigbee", require_admin: true }
-        - { name: "portainer", key: "portainer", enabled: "{{ sidebar_portainer }}", title: "portainer", url: "http://{{ ansible_default_ipv4.address }}:9000", icon: "mdi:docker", require_admin: true }
-        - { name: "pihole", key: "pihole", enabled: "{{ sidebar_pihole }}", title: "pihole", url: "http://{{ ansible_default_ipv4.address }}/admin/login.php", icon: "mdi:pi-hole", require_admin: true }
+        - { name: "zigbee2mqtt", key: "zigbee2mqtt", enabled: "{{ sidebar.zigbee2mqtt }}", title: "zigbee2mqtt", url: "http://{{ ansible_default_ipv4.address }}:8080", icon: "mdi:zigbee", require_admin: true }
+        - { name: "portainer", key: "portainer", enabled: "{{ sidebar.portainer }}", title: "portainer", url: "http://{{ ansible_default_ipv4.address }}:9000", icon: "mdi:docker", require_admin: true }
+        - { name: "pihole", key: "pihole", enabled: "{{ sidebar.pihole }}", title: "pihole", url: "http://{{ ansible_default_ipv4.address }}/admin/login.php", icon: "mdi:pi-hole", require_admin: true }
       loop_control:
-        loop_var: sidebar
+        loop_var: var_sidebar
 
     - name: Manage custom sidebars in Home Assistant configuration
       include_tasks: subtasks/custom_sidebar_tasks.yml
       loop:
-        - { name: "panel_integrations", enabled: "{{ sidebar_integrations }}", sidebar_title: "Integrations", sidebar_icon: "mdi:audio-input-rca", url_path: "config/integrations", module_url: "/api/hassio/app/entrypoint.js", embed_iframe: true, require_admin: true }
-        - { name: "panel_automations", enabled: "{{ sidebar_automations }}", sidebar_title: "Automations", sidebar_icon: "mdi:cogs", url_path: "config/automation", module_url: "/api/hassio/app/entrypoint.js", embed_iframe: true, require_admin: true }
+        - { name: "panel_integrations", enabled: "{{ sidebar.integrations }}", sidebar_title: "Integrations", sidebar_icon: "mdi:audio-input-rca", url_path: "config/integrations", module_url: "/api/hassio/app/entrypoint.js", embed_iframe: true, require_admin: true }
+        - { name: "panel_automations", enabled: "{{ sidebar.automations }}", sidebar_title: "Automations", sidebar_icon: "mdi:cogs", url_path: "config/automation", module_url: "/api/hassio/app/entrypoint.js", embed_iframe: true, require_admin: true }
       loop_control:
         loop_var: custom_sidebar
 

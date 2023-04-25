@@ -1,27 +1,27 @@
 ---
-- name: Check if {{ sidebar.key }} is present in Home Assistant configuration
+- name: Check if {{ var_sidebar.key }} is present in Home Assistant configuration
   ansible.builtin.lineinfile:
     path: /tmp/configuration.tmp
-    line: "{{ sidebar.key }}:"
+    line: "{{ var_sidebar.key }}:"
     state: present
-  register: sidebar_present
+  register: var_sidebar_present
   check_mode: true
   become: false
-  when: sidebar.enabled | default(true)
+  when: var_sidebar.enabled | default(true)
 
-- name: Add {{ sidebar.name }} to Home Assistant configuration
+- name: Add {{ var_sidebar.name }} to Home Assistant configuration
   ansible.builtin.blockinfile:
     path: /tmp/configuration.tmp
-    insertafter: "{{ sidebar.key }}:"
+    insertafter: "{{ var_sidebar.key }}:"
     block: |2
-      {% if sidebar.key == 'panel_iframe' %}
-      {{ sidebar.key }}:
+      {% if var_sidebar.key == 'panel_iframe' %}
+      {{ var_sidebar.key }}:
       {% else %}
-        {{ sidebar.key }}:
+        {{ var_sidebar.key }}:
       {% endif %}
-      {% for key, value in sidebar.items() if key not in ['name', 'key', 'enabled'] %}
+      {% for key, value in var_sidebar.items() if key not in ['name', 'key', 'enabled'] %}
           {{ key }}: {{ value }}
       {% endfor %}
-    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ sidebar.key }}"
-  when: sidebar_present.changed and sidebar.enabled | default(true)
+    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ var_sidebar.key }}"
+  when: var_sidebar_present.changed and var_sidebar.enabled | default(true)
   become: false
