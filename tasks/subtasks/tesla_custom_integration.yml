@@ -1,3 +1,4 @@
+---
 - name: Create custom_components and tesla_custom directories if they do not exist
   ansible.builtin.file:
     path: "{{ config_dir }}/home-assistant/config/custom_components/{{ item }}"

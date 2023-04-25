@@ -1,0 +1,23 @@
+---
+- name: Create go2rtc and config folders on Pi.
+  ansible.builtin.file:
+    path: "{{ config_dir }}/go2rtc{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+    - ''
+    - '/config'
+  become: false
+
+- name: Copy go2rtc docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/go2rtc-docker-compose.yml.j2
+    dest: "{{ config_dir }}/go2rtc/docker-compose.yml"
+    mode: 0640
+  become: false
+
+- name: Ensure go2rtc is running.
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/go2rtc/"
+    build: false
+  become: false

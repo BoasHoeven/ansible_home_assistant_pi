@@ -56,23 +56,27 @@
       when: install_blueprints
       become: true
 
-    - name: Manage Tesla Custom Integration
+    - name: Manage Tesla Custom Component
       include_tasks: subtasks/tesla_custom_integration.yml
-      when: tesla_enable
+      when: custom_components.tesla
 
+    - name: Manage WebRTC Custom Component
+      include_tasks: subtasks/custom_components/webrtc_custom_component.yml
+      when: custom_components.webrtc
+  
   become: false
 
 - name: Reload Home Assistant configuration
   block:
     - name: Stop home-assistant container (Reloading config)
       community.docker.docker_container:
-        name: hass
+        name: home-assistant
         state: stopped
       become: false
 
     - name: Start home-assistant container (Reloading config)
       community.docker.docker_container:
-        name: hass
+        name: home-assistant
         state: started
       become: false
 

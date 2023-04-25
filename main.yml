@@ -53,9 +53,9 @@
       ansible.builtin.import_tasks: tasks/portainer.yml
       when: portainer_enable
 
-    - name: Set up WebRTC.
-      ansible.builtin.import_tasks: tasks/webrtc.yml
-      when: webrtc_enable
+    - name: Set up go2rtc.
+      ansible.builtin.import_tasks: tasks/go2rtc.yml
+      when: go2rtc_enable
 
     - name: Set up Home-Assistant.
       ansible.builtin.import_tasks: tasks/home-assistant.yml

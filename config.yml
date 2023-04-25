@@ -30,19 +30,21 @@ autoheal:
 # Portainer configuration.
 portainer_enable: false
 
-# Tesla custom integration configuration.
-tesla_enable: false
-
-# WebRTC custom integration configuration.
-webrtc_enable: false
+# go2rtc custom integration configuration.
+go2rtc_enable: true
 
 # Home Assistant
 sidebar:
   zigbee2mqtt: true
   portainer: false
-  pihole: false
+  webrtc: true
+  pihole: true
   automations: true
   integrations: true
+
+custom_components:
+  tesla: false
+  webrtc: true
 
 install_blueprints: true
 

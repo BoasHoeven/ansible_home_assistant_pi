@@ -1,0 +1,23 @@
+---
+- name: Check if webrtc has already been downloaded
+  stat:
+    path: "{{ config_dir }}/home-assistant/config/custom_components/webrtc"
+  register: folder_stat
+
+- name: Download temporary GitHub repository
+  git:
+    repo: https://github.com/AlexxIT/WebRTC.git
+    dest: /tmp/webrtc
+    version: master
+    force: yes
+
+- name: Copy 'webrtc' folder to the desired location
+  synchronize:
+    src: /tmp/webrtc/custom_components/webrtc/
+    dest: "{{ config_dir }}/home-assistant/config/custom_components/webrtc"
+  when: not folder_stat.stat.exists or folder_stat.stat.isdir
+
+- name: Clean up temporary GitHub repository
+  ansible.builtin.file:
+    path:  /tmp/webrtc
+    state: absent

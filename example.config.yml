@@ -34,7 +34,7 @@ portainer_enable: false
 tesla_enable: false
 
 # WebRTC custom integration configuration.
-webrtc_enable: false
+go2rtc_enable: false
 
 # Home Assistant
 sidebar:
@@ -43,6 +43,10 @@ sidebar:
   pihole: false
   automations: true
   integrations: true
+
+custom_components:
+  tesla: false
+  webrtc: false
 
 install_blueprints: false
 

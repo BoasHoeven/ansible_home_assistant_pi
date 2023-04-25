@@ -6,6 +6,7 @@ services:
   # https://hub.docker.com/r/alexxit/go2rtc
   go2rtc:
     image: alexxit/go2rtc:latest
+    container_name: go2rtc
     network_mode: host       # important for WebRTC, HomeKit, UDP cameras
     privileged: true         # only for FFmpeg hardware transcoding
     restart: unless-stopped  # autorestart on fail or config change from WebUI
