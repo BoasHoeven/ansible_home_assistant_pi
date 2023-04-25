@@ -12,7 +12,7 @@
 - name: Add {{ var_sidebar.name }} to Home Assistant configuration
   ansible.builtin.blockinfile:
     path: /tmp/configuration.tmp
-    insertafter: "{{ var_sidebar.key }}:"
+    insertafter: "panel_iframe:"
     block: |2
       {% if var_sidebar.key == 'panel_iframe' %}
       {{ var_sidebar.key }}:
@@ -23,5 +23,5 @@
           {{ key }}: {{ value }}
       {% endfor %}
     marker: "# {mark} ANSIBLE MANAGED BLOCK {{ var_sidebar.key }}"
-  when: var_sidebar_present.changed and var_sidebar.enabled | default(true)
   become: false
+  when: var_sidebar_present.changed and var_sidebar.enabled | default(true)

@@ -28,6 +28,7 @@
         - { name: "zigbee2mqtt", key: "zigbee2mqtt", enabled: "{{ sidebar.zigbee2mqtt }}", title: "zigbee2mqtt", url: "http://{{ ansible_default_ipv4.address }}:8080", icon: "mdi:zigbee", require_admin: true }
         - { name: "portainer", key: "portainer", enabled: "{{ sidebar.portainer }}", title: "portainer", url: "http://{{ ansible_default_ipv4.address }}:9000", icon: "mdi:docker", require_admin: true }
         - { name: "pihole", key: "pihole", enabled: "{{ sidebar.pihole }}", title: "pihole", url: "http://{{ ansible_default_ipv4.address }}/admin/login.php", icon: "mdi:pi-hole", require_admin: true }
+        - { name: "webrtc", key: "webrtc", enabled: "{{ sidebar.webrtc }}", title: "webrtc", url: "http://{{ ansible_default_ipv4.address }}:1984", icon: "mdi:camera", require_admin: true }
       loop_control:
         loop_var: var_sidebar
 

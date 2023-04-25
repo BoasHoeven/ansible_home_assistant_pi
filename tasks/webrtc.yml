@@ -1,16 +1,12 @@
 ---
-- name: Create WebRTC folder on Pi.
+- name: Create WebRTC and config folders on Pi.
   ansible.builtin.file:
-    path: "{{ config_dir }}/webrtc"
+    path: "{{ config_dir }}/webrtc{{ item }}"
     state: directory
     mode: 0755
-  become: false
-
-- name: Create config folder on Pi.
-  ansible.builtin.file:
-    path: "{{ config_dir }}/webrtc/config"
-    state: directory
-    mode: 0755
+  loop:
+    - ''
+    - '/config'
   become: false
 
 - name: Copy WebRTC docker-compose template to Pi.
